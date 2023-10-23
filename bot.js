@@ -109,23 +109,23 @@ class MainBot extends ActivityHandler {
                     } else {
                         // if context activity channel is teams then get the user details from the teams
                         // Get the details from TeamInfo only once and store it in the state if the user info is not found or if the user info is not present in the state
-                        console.log('User State', this.userState.user)
+                        console.log('User State', this.userState.user);
                         if (this.userState.user === undefined || this.userState.user === null) {
-                            try
-                            {
+                            try {
                                 const member = await TeamsInfo.getMember(context, context.activity.from.id);
                                 const userEmail = member.email;
-    
-                                AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);    
-                            }
-                            catch (error) {
+
+                                AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);
+                            } catch (error) {
                                 console.log('++++ Error +++', error);
                             }
                             console.log('*** AuthenticationDetails ******', AuthenticationDetails);
+
+                            this.userState.user = AuthenticationDetails;
                         }
                     }
                 } catch (error) {
-                    console.log("++++ Error +++",error);
+                    console.log('++++ Error +++', error);
                     AuthenticationDetails = {
                         senderData: {
                             info: {
@@ -142,13 +142,14 @@ class MainBot extends ActivityHandler {
                             platform: 'msteams'
                         }
                     };
+
+                    this.userState.user = AuthenticationDetails;
                 }
 
                 var userInputText = context.activity.text;
                 console.log('User Text--->', userInputText);
                 var cardReturnValue = context.activity.value;
                 console.log('card value--->', cardReturnValue);
-                this.userState.user = AuthenticationDetails;
 
                 // Creating table in azure
                 // Create an instance of the Azure Table Service
@@ -227,7 +228,7 @@ class MainBot extends ActivityHandler {
                     case 'chatgpt':
                         var getGptResponse = await gptResponse.getChatGptResponse(cardReturnValue.userQues);
                         console.log('****** ChatGpt Response ******>', getGptResponse);
-                        var gptResponseToUser = await context.sendActivity(getGptResponse);
+                        await context.sendActivity(getGptResponse);
                         return;
                     case 'ChatGPT':
                         var chatGptCard = MessageFactory.attachment(CardFactory.adaptiveCard(chatGptCardjson));
@@ -267,14 +268,11 @@ class MainBot extends ActivityHandler {
                     await dc.context.sendActivity(exitText);
                     await dc.context.sendActivity(anyText);
                     return await dc.cancelAllDialogs();
-                }
-                // Write an else if condition to check if typed message is SIGNOFF then cancel all the dialogs and send a reply to the user
-                else if (userIntent === 'signoff') {
+                } else if (userIntent === 'signoff') { // Write an else if condition to check if typed message is SIGNOFF then cancel all the dialogs and send a reply to the user
                     await dc.context.sendActivity('You have been signed off successfully. Type a message to login again');
                     delete this.userState.user;
                     return await dc.cancelAllDialogs();
-                }
-                else if (dc.stack.length !== 0) {
+                } else if (dc.stack.length !== 0) {
                     // Check the current active dialog type
                     console.log('dc.activeDialog is active');
 
