@@ -18,7 +18,7 @@ class ConversationFlowUtilitiesV2 {
             for (var i = 0; i < results.choices.length; i++) {
                 result.push(CardFactory.heroCard(
                     results.choices[i].value, // title keep empty
-                    CardFactory.images(['']), // image keep empty
+                    //CardFactory.images(['']), // image keep empty
                     // buttons to be added
                     CardFactory.actions([
                         {

@@ -52,11 +52,9 @@ const intentShowAppliedOd = require('./useCases/showAppliedOd.json');
 const intentCompanyDirectory = require('./useCases/companyDirectory.json');
 
 // const { Json } = require('adaptive-expressions/lib/builtinFunctions');
-// console.log(intentClassify);
 
 const quesReply = require('./resources/localization/quesReply');
 const gptResponse = require('./utils/gpt');
-// const { log } = require('console');
 
 global.activityId = '';
 
@@ -71,10 +69,6 @@ class MainBot extends ActivityHandler {
 
         // Create a new dialogState
         this.dialogState = this.conversationState.createProperty('DialogState');
-        // console.log('userStateuserStateuserState: ',userState);
-        // console.log("#############");
-        // console.log("convsersationState: ",conversationState);
-        // console.log("#############");
         // Create a new DialogSet
 
         // this.conversationReferences = conversationReferences;
@@ -91,7 +85,6 @@ class MainBot extends ActivityHandler {
 
             // var userProfile = await this.userProfileAccessor;
             // const conversationData = await this.conversationDataAccessor;
-            // console.log("+++++++++++++++>>>>",context);
             var AuthenticationDetails = null;
             if (context.activity.type === 'message') {
                 try {
@@ -116,18 +109,23 @@ class MainBot extends ActivityHandler {
                     } else {
                         // if context activity channel is teams then get the user details from the teams
                         // Get the details from TeamInfo only once and store it in the state if the user info is not found or if the user info is not present in the state
+                        console.log('User State', this.userState.user)
                         if (this.userState.user === undefined || this.userState.user === null) {
-                            const member = await TeamsInfo.getMember(context, context.activity.from.id);
-                            const userEmail = member.email;
-
-                            AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);
-
+                            try
+                            {
+                                const member = await TeamsInfo.getMember(context, context.activity.from.id);
+                                const userEmail = member.email;
+    
+                                AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);    
+                            }
+                            catch (error) {
+                                console.log('++++ Error +++', error);
+                            }
                             console.log('*** AuthenticationDetails ******', AuthenticationDetails);
                         }
                     }
                 } catch (error) {
-                    // console.log("++++ Error +++",error);
-                    console.log(error.code);
+                    console.log("++++ Error +++",error);
                     AuthenticationDetails = {
                         senderData: {
                             info: {
@@ -154,7 +152,7 @@ class MainBot extends ActivityHandler {
 
                 // Creating table in azure
                 // Create an instance of the Azure Table Service
-                console.log(context._activity);
+                // console.log(context._activity);
 
                 // Create a table name (replace 'mytable' with your preferred table name)
                 const tableName = 'UserProfile';
@@ -233,8 +231,6 @@ class MainBot extends ActivityHandler {
                         return;
                     case 'ChatGPT':
                         var chatGptCard = MessageFactory.attachment(CardFactory.adaptiveCard(chatGptCardjson));
-                        // var getGptResponse=await gptResponse.getChatGptResponse(context.activity.text)
-                        // console.log('****** ChatGpt Response ******',getGptResponse)
                         var temp = await context.sendActivity(chatGptCard);
                         global.activityId = temp.id;
                         console.log('++++++++ ChatGPT global.activityId ++++++++', global.activityId);
@@ -393,10 +389,8 @@ class MainBot extends ActivityHandler {
         });
 
         this.onMembersAdded(async (context, next) => {
-            // console.log('====',context)
             const membersAdded = context.activity.membersAdded;
 
-            // console.log('++++++++++++++++++++++++++++++++',membersAdded)
             // Create  couple of mesaage formats to welcome the user for first time with Plain Text and Hero Card to send it across supported channels
             // Post which redirect the user to the dialog to start the conversation with login if he is not authenticated
             // const welcomeText = `Hello ${ context.activity.from.name } and Welcome to HonoBot`;

@@ -26,8 +26,6 @@ class RootDialog extends ComponentDialog {
         // let fileName = '';
         console.log('*****In the root begin dailog*********');
         var context = dc.context;
-        // console.log(context.turnState);
-        // console.log('---------',context.turnState.UserData.user.senderData.info);
         const user = context.turnState.UserData.user.senderData;
         const flows = options;
 
@@ -70,23 +68,18 @@ class RootDialog extends ComponentDialog {
         //     this._initialized = true;
         console.log('++++++ ', outerDc.activeDialog.state);
         const flowData = outerDc.activeDialog.state.stateKey;
-        // console.log('@@@@@@@@@@@@@@@@: ',flowData);
         const flows = flowData.conversationFlows;
         const factory = new DialogFactory(flows);
 
         for (const flow of flows) {
-            // this._dialogs.add(factory.createDialog(flow, this._services));
             this._dialogs.add(factory.createDialog(flow, null));
         }
         // }
     }
 
     async continueActionsAsync(dc, options, cancellationToken) {
-        // console.log('++++>>>>: ',dc.activeDialog.state.stateKey);
         const innerDc = this.createInnerDc(dc, dc.activeDialog);
-        // console.log();
         const flowData = dc.activeDialog.state.stateKey;
-        // console.log(flowData);
         let flow = flowData.currentFlow;
         while (flow !== undefined) {
             let result = null;

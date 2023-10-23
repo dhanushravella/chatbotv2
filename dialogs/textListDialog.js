@@ -62,7 +62,7 @@ class TextListDialog extends TextPrompt {
         // CardFactory.heroCard('LWP', '0'),
 
         card.forEach(element => {
-            heroCards.push(CardFactory.heroCard(element.title, element.subTitle, element.imageUrl));
+            heroCards.push(CardFactory.heroCard(element.title, element.subTitle));
         });
 
         console.log(heroCards);
