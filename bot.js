@@ -106,7 +106,7 @@ class MainBot extends ActivityHandler {
                                 platform: 'msteams'
                             }
                         };
-                    } else {
+                    } else if (context.activity.channelId === 'msteams') {
                         // if context activity channel is teams then get the user details from the teams
                         // Get the details from TeamInfo only once and store it in the state if the user info is not found or if the user info is not present in the state
                         console.log('User State', this.userState.user);
@@ -123,6 +123,10 @@ class MainBot extends ActivityHandler {
 
                             this.userState.user = AuthenticationDetails;
                         }
+                    } else {
+                        // Write a code to ask user to enter email address and the bot should send OTP to the user email address and authenticate the user
+                        // If the user is authenticated then store the user details in the state'
+                        // If the user is not authenticated then ask the user to enter the email address again
                     }
                 } catch (error) {
                     console.log('++++ Error +++', error);

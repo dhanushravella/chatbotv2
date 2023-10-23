@@ -26,6 +26,8 @@ class RootDialog extends ComponentDialog {
         // let fileName = '';
         console.log('*****In the root begin dailog*********');
         var context = dc.context;
+        console.log(context.turnState.UserData);
+        console.log('dc ', dc);
         const user = context.turnState.UserData.user.senderData;
         const flows = options;
 
