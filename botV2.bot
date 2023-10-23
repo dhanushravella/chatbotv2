@@ -1,0 +1,18 @@
+{
+    "name": "botV2",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "http://localhost:3978/api/messages",
+            "id": "2dc422c0-69e5-11ee-a8bc-1b1fbc465d0f",
+            "appId": "2d4d0e2c-d94e-467d-9427-6af36a46f234",
+            "appPassword": "nfs8Q~n.-OhEE.L6VYh4O1vLUXBeGst_QEcmDdkN",
+            "endpoint": "http://localhost:3978/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "D:\\node\\Chatbot%20V2\\botV2.bot",
+    "overrides": null
+}
