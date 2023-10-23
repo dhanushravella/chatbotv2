@@ -1,0 +1,105 @@
+[
+    {
+        "objectId": "1",
+        "question": "Please specify name of employee.",
+        "options": [      
+          {
+            "answer": "",
+            "nextQuestion": "2"
+          }
+        ],
+        "type": "InputDialog",
+        "property":  "searchEmpName" 
+    },
+    {
+        "objectId": "2",
+        "type": "IfElseDialog",
+        "condition": "${isMatch(searchEmpName,'^[a-zA-Z ]+$')}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "3"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "4"
+          }
+        ]
+    },
+    {
+        "objectId": "4",
+        "text": "There seems a problem with Input, Please do not use any special characters or numbers",
+        "type": "TextDialog",
+        "options": [
+          {
+            "answer": "",
+          "nextQuestion": "1"
+          }
+        ]
+    },
+    {
+        "objectId": "3",
+        "type": "CallApi",
+        "api_name": "company_dir",
+        "module": "COMPANY_DIRECTORY",
+        "url_endpoint":"sapi/Service/companyDirectory_New_v2?",
+        "method":"GET",
+        "body":{
+            "comp_code":"${comp_code}",
+            "emp_code":"${EMP_code}",
+            "token":"${access_token}"
+        },
+        "queryParameter":"&empsearch=${searchEmpName}&page=1",
+        "options":[
+            {
+                "answer": "",
+                "nextQuestion":"5"
+            }
+        ]
+    },
+    {
+        "objectId": "5",
+        "type": "IfElseDialog",
+        "condition": "${submit.result == 'true'}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "6"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "7"
+          }
+        ]
+    },
+    {
+        "objectId": "6",
+        "type": "textListDialog",
+        "title":"",
+        "data":"${submit.directory_data}",
+        "validKeys":["EmpDetails[0]['value']","EmpDetails[1]['value']","EmpDetails[4]['value']","EmpDetails[5]['value']"],
+        "labelNames":["Name","Employee Code","Designation","Reporting To"],
+        "CardDesign":{
+          "$data":"${$root.directory_data}",
+          "title": "${EmpDetails[0]['value']}",
+          "subTitle": "${EmpDetails[1]['value']} \n\n ${EmpDetails[4]['value']} \n\n ${EmpDetails[5]['value']} (Manager)",
+          "text":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "imageUrl":[]
+        },
+        "options": [      
+          {
+            "nextQuestion": ""
+          }
+        ]
+    },
+    {
+        "objectId": "7",
+        "text": "${submit.error}",
+        "type": "TextDialog",
+        "options": [
+          {
+            "nextQuestion": ""
+          }
+        ]
+    }
+]

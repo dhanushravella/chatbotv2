@@ -1,0 +1,12 @@
+{
+    "greet": ["Hello ${emp_name}! How may I help you with HR-related tasks?","Hi ${emp_name} ,Feel free to ask any HR-related questions you have","How can I help you?","Hey ${emp_name}! Welcome to the HONO bot. \n How can I support you?","Hi ${emp_name}, What can I do for you?"],
+    "pleasantries":["{pleasantriesText} ${emp_name}"],
+    "praise":["Thanks for the appreciation 😍","Thank you for the appreciation"],
+    "scold":["Sorry I was not much of a help 😔.","Thanks for the feedback to improve"],
+    "thanks":["You are welcome ${emp_name}😊"],
+    "bye":["See you soon and thanks for chatting with me."],
+    "help":["Sure, I can help you with that. Here are some common tasks you can ask me about:\n\n1. **Leave Requests**: You can request a leave by saying 'I want to apply for leave'.\n2. **Employee Information**: To get information about an employee, ask 'Can you tell me about [employee name]?'.\n3. **Salary**: You can inquire about your salary details by saying 'What's my current salary?'."],
+    "anything":["Anything else you want me to help you"],
+    "exit":["Alright, I have canceled the transaction."]
+
+}

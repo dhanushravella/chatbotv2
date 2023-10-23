@@ -1,0 +1,25 @@
+[
+    {
+        "id": "0",
+        "objectId": "0",
+        "text": "heyyy",
+        "type": "TextDialog",
+        "options": [      
+          {
+            "nextQuestion": "1"
+          }
+        ]
+    },
+    {
+        "id": "1",
+        "objectId": "1",
+        "text": "How are you",
+        "type": "TextDialog",
+        "options": [      
+          {
+            "nextQuestion": ""
+          }
+        ]
+    }
+    
+]

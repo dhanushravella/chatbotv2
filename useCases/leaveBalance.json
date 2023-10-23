@@ -1,0 +1,53 @@
+[
+    {
+        "id": "0",
+        "objectId": "0",
+        "text": "Here is your leave balance",
+        "type": "TextDialog",
+        "options": [
+            {
+                "nextQuestion":"1"
+            }
+        ]
+    },
+    {
+        "id": "1",
+        "objectId": "1",
+        "type": "CallApi",
+        "api_name": "leave_balance",
+        "module": "LEAVE",
+        "property": "leaveBalance",
+        "url_endpoint":"sapi/LeaveMaster/getLeaveBalances_v2?",
+        "method":"GET",
+        "body":{
+            "comp_code":"${comp_code}",
+            "emp_code":"${EMP_code}",
+            "token":"${access_token}"
+        },
+        "options":[
+            {
+                "nextQuestion":"2"
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "objectId": "2",
+        "type": "textListDialog",
+        "title":"* Leave Balance",
+        "data":"${submit.leave_balance}",
+        "validKeys":["lv_Type","lv_Value"],
+        "labelNames":["",""],
+        "CardDesign":{
+            "$data":"${$root.leave_balance}",
+            "title": "${lv_Type}",
+            "subTitle": "${lv_Value}",
+            "imageUrl":[]
+        },
+        "options":[
+            {
+                "nextQuestion":""
+            }
+        ]
+    }
+]

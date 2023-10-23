@@ -1,0 +1,410 @@
+[{
+    "objectId": "0",
+    "type": "EntityDialog",
+    "property": "forDate",
+    "entity": "datetime.date",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "0.1"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "0.1",
+    "condition": "${forDate == '' || forDate == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "1"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "7"
+      }
+    ]
+  },
+  {
+    "objectId": "1",
+    "type": "EntityDialog",
+    "property": ["forDate", "toDate"],
+    "entity": "datetime.daterange",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "1.1"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "1.1",
+    "condition": "${forDate == '' || forDate == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "2"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "7"
+      }
+    ]
+  },
+  {
+    "objectId": "2",
+    "type": "EntityDialog",
+    "property": ["forDate", "fromTime"],
+    "entity": "datetime",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "2.1"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "2.1",
+    "condition": "${forDate == '' || forDate == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "3"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "8"
+      }
+    ]
+  },
+  {
+    "objectId": "3",
+    "type": "EntityDialog",
+    "property": ["forDate", "fromTime", "toTime"],
+    "entity": "datetime.datetimerange",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "3.1"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "3.1",
+    "condition": "${forDate == '' || forDate == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "4"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "9"
+      }
+    ]
+  },
+  {
+    "objectId": "4",
+    "type": "EntityDialog",
+    "property": "fromTime",
+    "entity": "datetime.time",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "4.1"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "4.1",
+    "condition": "${fromTime == '' || fromTime == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "5"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "6"
+      }
+    ]
+  },
+  {
+    "objectId": "5",
+    "type": "EntityDialog",
+    "property": ["fromTime", "toTime"],
+    "entity": "datetime.timerange",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "5.1"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "5.1",
+    "condition": "${fromTime == '' || fromTime == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "6"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "6"
+      }
+    ]
+  },
+  {
+    "objectId": "6",
+    "question": "Please enter for date",
+    "options": [{
+      "answer": "",
+      "nextQuestion": "0"
+    }],
+    "type": "InputDialog",
+    "inputType": "Date",
+    "property": "forDate"
+  },
+  {
+    "objectId": "7",
+    "type": "SetPropertyDialog",
+    "value": "${forDate}",
+    "property": "fromTimeData",
+    "options": [
+      {
+        "answer": "",
+        "nextQuestion": "7.1"
+      }
+    ]
+  },
+  {
+    "objectId": "7.1",
+    "question": "Please enter from time",
+    "retryPrompt": "Please choose a valid input",
+    "type": "choiceDialog",
+    "data": "${fromTimeData}",
+    "Style":"suggestedAction",
+    "options": [
+      {
+        "answer": "${value}",
+        "nextQuestion": "7.2"
+      }
+    ],
+    "card":[{
+      "Title":"${value}",
+      "Subtitle":""
+    }],
+    "property": "fromTimeChoice"
+  },
+  {
+    "objectId": "7.2",
+    "type": "EntityDialog",
+    "property": "fromTime",
+    "entity": "datetime.time",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "7.3"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "7.3",
+    "condition": "${fromTime == '' || fromTime == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "7.4"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "8"
+      }
+    ]
+  },
+  {
+    "objectId": "7.4",
+    "type": "EntityDialog",
+    "property": ["fromTime", "toTime"],
+    "entity": "datetime.timerange",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "7.5"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "7.5",
+    "condition": "${fromTime == '' || fromTime == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "7"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "9"
+      }
+    ]
+  },
+  {
+    "objectId": "8",
+    "type": "SetPropertyDialog",
+    "value": "${fromTime}",
+    "property": "toTimeData",
+    "options": [
+      {
+        "answer": "",
+        "nextQuestion": "8.1"
+      }
+    ]
+  },
+  {
+    "objectId": "8.1",
+    "question": "Please enter to time",
+    "retryPrompt": "Please choose a valid input",
+    "type": "choiceDialog",
+    "data": "${toTimeData}",
+    "Style":"suggestedAction",
+    "options": [
+      {
+        "answer": "${value}",
+        "nextQuestion": "8.2"
+      }
+    ],
+    "card":[{
+      "Title":"${value}",
+      "Subtitle":""
+    }],
+    "property": "toTimeChoice"
+  },
+  {
+    "objectId": "8.2",
+    "type": "EntityDialog",
+    "property": "toTime",
+    "entity": "datetime.time",
+    "entityPosition": 1,
+    "options": [{
+      "answer": "",
+      "nextQuestion": "8.3"
+    }]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "8.3",
+    "condition": "${toTime == '' || toTime == null}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "8"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "9"
+      }
+    ]
+  },
+  {
+    "objectId": "9",
+    "question": "Please select reason",
+    "retryPrompt": "Please choose a valid input",
+    "type": "choiceDialog",
+    "data": [{"value":"Access not available"},{"value":"Forgot to mark attendance"},{"value":"Forgot to swipe"},{"value":"Other"}],
+    "Style":"Carousel",
+    "options": [
+      {
+        "answer": "${value}",
+        "nextQuestion": "10"
+      }
+    ],
+    "card":[{
+      "Title":"${value}",
+      "Subtitle":""
+    }],
+    "property": "arReason"
+  },
+  {
+    "objectId": "10",
+    "question": "Please enter remark",
+    "options": [      
+      {
+        "answer": "",
+        "nextQuestion": "12"
+      }
+    ],
+    "type": "InputDialog",
+    "inputType":  "Remark",
+    "property":  "remark" 
+},
+  {
+    "objectId": "12",
+    "type": "choiceDialog",
+    "question": "You are one step away to apply AR for ${forDate} from ${fromTime} to ${toTime}",
+    "data": [{
+      "key": "Yes"
+    }, {
+      "key": "No"
+    }],
+    "options": [{
+        "answer": "Yes",
+        "nextQuestion": "13"
+      },
+      {
+        "answer": "No",
+        "nextQuestion": "16"
+      }
+    ],
+    "property":  "arSubmitBtn" 
+  },
+  {
+    "objectId": "13",
+    "type": "CallApi",
+    "api_name": "applyAr",
+    "module": "ATTENDANCE",
+    "url_endpoint": "sapi/AttendanceMaster/submitPastAttendance_v2?",
+    "method": "POST",
+    "body": {
+      "comp_code": "${comp_code}",
+      "emp_code": "${EMP_code}",
+      "token": "${access_token}"
+    },
+    "queryParameter":"&for_date=${forDate}&in_date=${forDate}&out_date=${forDate}&inHour=${}&inMinute=${}&inap=${}&outHour=${}&outMinute=${}&outap=${}&notMarkingReas=${}&remarks=${remark}",
+    "options": [{
+      "answer": "",
+      "nextQuestion": "13.1"
+    }]
+  },
+  {
+    "objectId": "13.1",
+    "type": "IfElseDialog",
+    "condition": "${submit.result == 'true'}",
+    "options": [{
+        "answer": true,
+        "nextQuestion": "14"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "15"
+      }
+    ]
+  },
+  {
+    "objectId": "14",
+    "text": "${submit.message}",
+    "type": "TextDialog",
+    "options": [{
+      "answer": "",
+      "nextQuestion": "16"
+    }]
+  },
+  {
+    "objectId": "15",
+    "text": "${submit.error}",
+    "type": "TextDialog",
+    "options": [{
+      "answer": "",
+      "nextQuestion": "16"
+    }]
+  },
+  {
+    "objectId": "16",
+    "text": "What else I can do for you?",
+    "type": "TextDialog",
+    "options": [{
+      "answer": "",
+      "nextQuestion": ""
+    }]
+  }
+]

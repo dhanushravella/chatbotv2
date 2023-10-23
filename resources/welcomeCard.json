@@ -1,0 +1,115 @@
+{
+
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "width": "auto",
+                            "items": [
+                                {
+                                    "size": "Medium",
+                                    "type": "Image",
+                                    "url": "https://www.hono.ai/public/favicon-16x16.png",
+                                    "spacing": "Small",
+                                    "altText": "HONO AI",
+                                    "horizontalAlignment": "Center"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "width": "stretch",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Hey, ${member.name},",
+                                    "size": "ExtraLarge",
+                                    "weight": "Bolder"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "size": "Large",
+                                    "text": "I'm your assistant at work from HONO!"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Allow me to assist you in swiftly accomplishing your HR tasks.",
+                    "size": "Large",
+                    "wrap": true
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "I can help you to",
+                    "size": "Large",
+                    "wrap": true
+                },
+                {
+                    "type": "FactSet",
+                    "facts": [
+                        {
+                            "title": "• ",
+                            "value": "**Apply leave** – Monday? Or Tuesday? Just let me know"
+                        },
+                        {
+                            "title": "• ",
+                            "value": "View **Leave balance**"
+                        },
+                        {
+                            "title": "• ",
+                            "value": "Check out the **Holiday calendar**"
+                        },
+                        {
+                            "title": "• ",
+                            "value": "**Payslip** for any time period"
+                        },
+                        {
+                            "title": "• ",
+                            "value": "**Apply AR or OD**, I even prompt you when its time"
+                        },
+                        {
+                            "title": "• ",
+                            "value": "**Team Status** for today"
+                        },
+                        {
+                            "title": "• ",
+                            "value": "**360 degree feedback** of a team member"
+                        },
+                        {
+                            "title": "• ",
+                            "value": "View pending **Approvals**"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "More Info",
+            "url": "https://www.hono.ai"
+        },
+        {
+            "type": "Action.OpenUrl",
+            "title": "Contact us",
+            "url": "mailto:connect@hono.ai"
+        }
+    ]
+}

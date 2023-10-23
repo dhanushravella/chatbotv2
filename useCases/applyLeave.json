@@ -1,0 +1,286 @@
+[
+	{
+	  "objectId": "0",
+	  "text": "I'd be happy to assist you with that.",
+	  "type": "TextDialog",
+	  "options": [
+		{
+		  "answer": "",
+		"nextQuestion": "0.1"
+		}
+	  ]
+	},
+  {
+    "objectId": "0.1",
+    "type": "EntityDialog",
+    "property": "fromDate",
+    "entity": "datetime.date",
+    "entityPosition": 1,
+    "options": [
+      {
+        "answer": "",
+        "nextQuestion": "0.2"
+      }
+    ]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "0.2",
+    "condition": "${fromDate == '' || fromDate == null}",
+    "options": [
+      {
+        "answer": true,
+        "nextQuestion": "1"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "1.2"
+      }
+    ]
+  },
+  {
+    "objectId": "1",
+    "type": "EntityDialog",
+    "property": ["fromDate","toDate"],
+    "entity": "datetime.daterange",
+    "entityPosition": 1,
+    "options": [
+      {
+        "answer": "",
+        "nextQuestion": "1.1"
+      }
+    ]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "1.1",
+    "condition": "${fromDate == '' || fromDate == null}",
+    "options": [
+      {
+        "answer": true,
+        "nextQuestion": "2"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "1.2"
+      }
+    ]
+  },
+  {
+    "objectId": "1.2",
+    "type": "SetPropertyDialog",
+    "value": "${fromDate}",
+    "property": "toDate",
+    "options": [
+      {
+        "answer": "",
+        "nextQuestion": "1.3"
+      }
+    ]
+  },
+  {
+    "type": "IfElseDialog",
+    "objectId": "1.3",
+    "condition": "${toDate == '' || toDate == null}",
+    "options": [
+      {
+        "answer": true,
+        "nextQuestion": "3"
+      },
+      {
+        "answer": false,
+        "nextQuestion": "4"
+      }
+    ]
+  },
+  {
+    "objectId": "2",
+    "question": "Could you please specify the start date of your leave?",
+    "options": [      
+      {
+        "answer": "",
+        "nextQuestion": "0.1"
+      }
+    ],
+    "type": "InputDialog",
+    "inputType":  "Date",
+    "property":  "fromDate" 
+},
+{
+  "objectId": "3",
+  "question": "What's the end date for your leave?",
+  "options": [      
+    {
+      "answer": "",
+      "nextQuestion": "3.1"
+    }
+  ],
+  "type": "InputDialog",
+  "inputType":  "Date",
+  "property":  "toDate" 
+},
+{
+  "objectId": "3.1",
+  "type": "EntityDialog",
+  "property": "toDate",
+  "entity": "datetime.date",
+  "entityPosition": 1,
+  "options": [
+    {
+      "answer": "",
+      "nextQuestion": "3.2"
+    }
+  ]
+},
+{
+  "type": "IfElseDialog",
+  "objectId": "3.2",
+  "condition": "${toDate == '' || toDate == null}",
+  "options": [
+    {
+      "answer": true,
+      "nextQuestion": "3"
+    },
+    {
+      "answer": false,
+      "nextQuestion": "4"
+    }
+  ]
+},
+  {
+    "objectId": "4",
+    "type": "CallApi",
+    "api_name": "leave_balance",
+    "module": "LEAVE",
+    "url_endpoint":"sapi/LeaveMaster/getLeaveBalances_v2?",
+    "method":"GET",
+    "body":{
+        "comp_code":"${comp_code}",
+        "emp_code":"${EMP_code}",
+        "token":"${access_token}"
+    },
+    "options":[
+        {
+            "answer": "",
+            "nextQuestion":"4.1"
+        }
+    ]
+  },
+  {
+    "objectId": "4.1",
+    "question": "Could you please specify the type of leave you want to apply for?",
+    "retryPrompt": "Please choose a valid leave type you want to apply for?",
+    "type": "choiceDialog",
+    "data": "${leave_balance}",
+    "Style":"Carousel",
+    "options": [
+      {
+        "answer": "${lv_Type} - ${lv_Value}",
+        "nextQuestion": "5"
+      }
+    ],
+    "card":[{
+      "Title":"${lv_Type} - ${lv_Value}",
+      "Subtitle":""
+    }],
+    "property": "leaveType"
+  },
+  {
+      "objectId": "5",
+      "question": "To submit your leave application, I'll need a reason for your leave",
+      "options": [      
+        {
+          "answer": "",
+          "nextQuestion": "6"
+        }
+      ],
+      "type": "InputDialog",
+      "inputType":  "Date",
+      "property":  "reason" 
+  },
+  {
+    "objectId": "6",
+    "type": "choiceDialog",
+    "question": "Thank you for providing the reason. Please confirm the details of your leave application **${leaveType.Validation.lv_Type}** from **${fromDate}** to **${toDate}** with reason as **${reason}**?",
+    "data": [{"key":"Yes"},{"key":"No"}],
+    "options": [
+      {
+        "answer": "Yes",
+        "nextQuestion": "7"
+      },
+      {
+        "answer": "No",
+        "nextQuestion": "10"
+      }
+    ],
+    "property":  "submitBtn" 
+  },
+  {
+    "objectId": "7",
+    "type": "CallApi",
+    "api_name": "applyLeave",
+    "module": "LEAVE",
+    "url_endpoint":"sapi/LeaveMaster/leave_request_v2?",
+    "method":"POST",
+    "body":{
+        "comp_code":"${comp_code}",
+        "emp_code":"${EMP_code}",
+        "token":"${access_token}"
+    },
+    "queryParameter":"&declareText=&from_date=${fromDate}&from_type=2FD&lvType=${leaveType.Validation.lv_Type_id}&optionalleave=&plan_unplan=1&reason=${reason}&to_date=${toDate}&to_type=2FD&type=create&unplan_type=0",
+    "options":[
+        {
+            "answer": "",  
+            "nextQuestion":"7.1"
+        }
+    ]
+},
+{
+  "objectId": "7.1",
+  "type": "IfElseDialog",
+  "condition": "${submit.result == 'true'}",
+  "options": [
+    {
+      "answer": true,
+      "nextQuestion": "8"
+    },
+    {
+      "answer": false,
+      "nextQuestion": "9"
+    }
+  ]
+},
+{
+  "objectId": "8",
+  "text": "${submit.message}",
+  "type": "TextDialog",
+  "options": [
+    {
+      "answer": "",
+    "nextQuestion": "10"
+    }
+  ]
+},
+{
+  "objectId": "9",
+  "text": "${submit.error}",
+  "type": "TextDialog",
+  "options": [
+    {
+      "answer": "",
+    "nextQuestion": "10"
+    }
+  ]
+},
+{
+  "objectId": "10",
+  "text": "What else I can do for you?",
+  "type": "TextDialog",
+  "options": [
+    {
+      "answer": "",
+    "nextQuestion": ""
+    }
+  ]
+}
+]

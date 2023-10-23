@@ -1,0 +1,31 @@
+[
+  {
+    "objectId": "0",
+    "type": "SetPropertyDialog",
+    "value": "shashank.singh@hono.ai",
+    "property": "recipientList",
+    "options": [
+      {
+        "answer": "",
+        "nextQuestion": "1"
+      }
+    ]
+  },
+  {
+    "objectId": "1",
+    "type": "NotificationDialog",
+    "recipients": [
+      "${recipientList}"
+    ],
+    "options": [
+      {
+        "answer": "",
+        "nextQuestion": "2"
+      }
+    ],
+    "eventData": {
+        "message":"notification test",
+        "type":"Message"
+    }
+  }
+]

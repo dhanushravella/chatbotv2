@@ -1,0 +1,149 @@
+[
+    {
+        "objectId": "1",
+        "type": "CallApi",
+        "module": "BIRTHDAY",
+        "url_endpoint": "sapi/EventMaster/anniversary_New_v2?",
+        "method": "GET",
+        "body": {
+          "comp_code": "${comp_code}",
+          "emp_code": "${EMP_code}",
+          "token": "${access_token}"
+        },
+        "options": [{
+          "answer": "",
+          "nextQuestion": "2"
+        }]
+    },
+    {
+        "objectId": "2",
+        "type": "IfElseDialog",
+        "condition": "${submit.result == 'true'}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "3"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "13"
+          }
+        ]
+    },
+    {
+        "objectId": "3",
+        "type": "IfElseDialog",
+        "condition": "${submit.yesterday == [] && submit.today == [] && submit.tomorrow == []}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "12"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "4"
+          }
+        ]
+    },
+    {
+        "objectId": "4",
+        "type": "IfElseDialog",
+        "condition": "${submit.yesterday == []}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "6"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "5"
+          }
+        ]
+    },
+    {
+        "objectId": "5",
+        "type": "",
+        "title":"* Anniversarie(s) that were Yesterday",
+        "data":"${api_response.yesterday}",
+        "validKeys":["occassion","emp_name"],
+        "options": [      
+          {
+            "nextQuestion": "6"
+          }
+        ]
+    },
+    {
+        "objectId": "6",
+        "type": "IfElseDialog",
+        "condition": "${submit.today == []}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "9"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "8"
+          }
+        ]
+    },
+    {
+        "objectId": "8",
+        "type": "",
+        "title":"* Anniversarie(s) that are Today",
+        "data":"${api_response.today}",
+        "validKeys":["occassion","emp_name"],
+        "options": [      
+          {
+            "nextQuestion": "9"
+          }
+        ]
+    },
+    {
+        "objectId": "9",
+        "type": "IfElseDialog",
+        "condition": "${submit.tomorrow == []}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": ""
+          },
+          {
+            "answer": false,
+            "nextQuestion": "11"
+          }
+        ]
+    },
+    {
+        "objectId": "11",
+        "type": "",
+        "title":" * Anniversarie(s) that will be tomorrow",
+        "data":"${api_response.tomorrow}",
+        "validKeys":["occassion","emp_name"],
+        "options": [      
+          {
+            "nextQuestion": ""
+          }
+        ]
+    },
+    {
+        "objectId": "12",
+        "text": "There are no upcoming Aniiversaries for now!",
+        "type": "TextDialog",
+        "options": [
+          {
+            "nextQuestion": ""
+          }
+        ]
+    },
+    {
+        "objectId": "13",
+        "text": "${submit.error}",
+        "type": "TextDialog",
+        "options": [
+          {
+            "nextQuestion": ""
+          }
+        ]
+    }
+]

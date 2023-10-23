@@ -1,0 +1,115 @@
+[
+    {
+        "objectId": "1",
+        "type": "CallApi",
+        "api_name": "showPendingOd",
+        "module": "ATTENDANCE",
+        "url_endpoint": "sapi/AttendanceMaster/ODTransactions_New_v3?",
+        "method": "GET",
+        "body": {
+          "comp_code": "${comp_code}",
+          "emp_code": "${EMP_code}",
+          "token": "${access_token}"
+        },
+        "queryParameter":"&request_type=request&request_value=1&page=1",
+        "options": [{
+          "answer": "",
+          "nextQuestion": "2"
+        }]
+    },
+    {
+        "objectId": "2",
+        "type": "IfElseDialog",
+        "condition": "${submit.result == 'true'}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "3"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "5"
+          }
+        ]
+    },
+    {
+        "objectId": "3",
+        "text": "Choose OD request which you to cancel",
+        "type": "TextDialog",
+        "options": [      
+          {
+            "nextQuestion": "4"
+          }
+        ]
+    },
+    {
+        "objectId": "4",
+        "type": "choiceDialog",
+        "Style":"Carousel",
+        "title":"",
+        "data":"${submit.OD_transactions}",
+        "card":[{
+            "Title":"",
+            "Subtitle":"From Date : ${From_date}  \n\n To Date : ${To_date} \n\n AppliedDateTime : ${Applied_Date_Time} \n\n Reason : ${Nature_of_work} \n\n L1 Status : ${appr_info[0]['StatusText']} \n\n L2 Status : ${appr_info[1]['StatusText']}"
+          }],
+        "options": [      
+            {
+            "answer":"From Date : ${From_date}  \n\n To Date : ${To_date} \n\n AppliedDateTime : ${Applied_Date_Time} \n\n Reason : ${Nature_of_work} \n\n L1 Status : ${appr_info[0]['StatusText']} \n\n L2 Status : ${appr_info[1]['StatusText']}",
+            "nextQuestion": "5"
+            }
+        ],
+        "property": ""
+    },
+    {
+        "objectId": "7",
+        "type": "textListDialog",
+        "title":"",
+        "data":"${submit.OD_transactions}",
+        "validKeys":["From_date","To_date","Applied_Date_Time","Nature_of_work","appr_info[0]['StatusText']","appr_info[1]['StatusText']"],
+        "labelNames":["From Date","To Date","AppliedDateTime","Reason","L1 Status","L2 Status"],
+        "CardDesign":{
+          "$data":"${$root.OD_transactions}",
+          "title": "",
+          "subTitle": "From Date : ${From_date}  \n\n To Date : ${To_date} \n\n AppliedDateTime : ${Applied_Date_Time} \n\n Reason : ${Nature_of_work} \n\n L1 Status : ${appr_info[0]['StatusText']} \n\n L2 Status : ${appr_info[1]['StatusText']}",
+          "imageUrl":[],
+          "buttons": [
+            {"type": "imBack", "title": "Cancel OD", "value": "${outWorkId},${OD_key},${token},remark=Please cancel this OD request"}
+            ]
+
+        },
+        "options": [      
+          {
+            "nextQuestion": "5"
+          }
+        ],
+        "property": ""
+    },
+    {
+        "objectId": "6",
+        "type": "CallApi",
+        "api_name": "cancelOd",
+        "module": "ATTENDANCE",
+        "url_endpoint": "sapi/AttendanceMaster/cancelOD_v2?",
+        "method": "GET",
+        "body": {
+          "comp_code": "${comp_code}",
+          "emp_code": "${EMP_code}",
+          "token": "${access_token}"
+        },
+        "queryParameter":"&request_type=request&request_value=1&page=1",
+        "options": [{
+          "answer": "",
+          "nextQuestion": "2"
+        }]
+    },
+    {
+        "objectId": "5",
+        "text": "${submit.error}",
+        "type": "TextDialog",
+        "options": [
+          {
+            "nextQuestion": ""
+          }
+        ]
+      }
+]

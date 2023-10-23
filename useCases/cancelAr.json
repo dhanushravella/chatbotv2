@@ -1,0 +1,74 @@
+[
+    {
+        "objectId": "1",
+        "type": "CallApi",
+        "api_name": "holidays",
+        "module": "ATTENDANCE",
+        "url_endpoint": "sapi/AttendanceMaster/pastAttendanceTransactions_New_v2?",
+        "method": "GET",
+        "body": {
+          "comp_code": "${comp_code}",
+          "emp_code": "${EMP_code}",
+          "token": "${access_token}"
+        },
+        "queryParameter":"&request_type=request&request_value=1&page=1",
+        "options": [{
+          "answer": "",
+          "nextQuestion": "2"
+        }]
+    },
+    {
+        "objectId": "2",
+        "type": "IfElseDialog",
+        "condition": "${submit.result == 'true'}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "3"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "5"
+          }
+        ]
+    },
+    {
+        "objectId": "3",
+        "text": "Below are the ${arStatus.Validation.value} Ar Resquest(s)",
+        "type": "TextDialog",
+        "options": [      
+          {
+            "nextQuestion": "4"
+          }
+        ]
+    },
+    {
+        "objectId": "4",
+        "type": "textListDialog",
+        "title":"",
+        "data":"${submit.Past_transactions}",
+        "validKeys":["From_date","Applied_Date_Time","Not_marking_reason","appr_info[0]['StatusText']","appr_info[1]['StatusText']"],
+        "labelNames":["Date","AppliedDateTime","Reason","L1 Status","L2 Status"],
+        "CardDesign":{
+          "$data":"${$root.Past_transactions}",
+          "title": "",
+          "subTitle": "AppliedDateTime : ${Applied_Date_Time} \n\n Date : ${From_date} \n\n Reason : ${Not_marking_reason} \n\n L1 Approval Status : ${appr_info[0]['StatusText']} \n\n L2 Approval Status : ${appr_info[1]['StatusText']}",
+          "imageUrl":[]
+      },
+        "options": [      
+          {
+            "nextQuestion": ""
+          }
+        ]
+    },
+    {
+        "objectId": "5",
+        "text": "${submit.error}",
+        "type": "TextDialog",
+        "options": [
+          {
+            "nextQuestion": ""
+          }
+        ]
+      }
+]

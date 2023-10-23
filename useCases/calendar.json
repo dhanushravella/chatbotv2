@@ -1,0 +1,40 @@
+[
+    {
+        "objectId": "0",
+        "text": "Here is your Calendar",
+        "type": "TextDialog",
+        "options": [      
+          {
+            "nextQuestion": "1"
+          }
+        ]
+    },
+    {
+        "objectId": "1",
+        "type": "CallApi",
+        "api_name": "calendar",
+        "module": "CALENDAR",
+        "url_endpoint": "sapi/CalendarMaster/showCalendar_v2?",
+        "method": "GET",
+        "body": {
+          "comp_code": "${comp_code}",
+          "emp_code": "${EMP_code}",
+          "token": "${access_token}"
+        },
+        "queryParameter":"&from_date=${startOfMonth(utcNow())}&to_date=${addDays(startOfMonth(utcNow()), ticksToDays(dateTimeDiff(getFutureTime(1, 'Month'),utcNow())))}",
+        "options": [{
+          "answer": "",
+          "nextQuestion": "2"
+        }]
+    },
+    {
+        "objectId": "2",
+        "type": "AdaptiveCard",
+        "cardName":"calendar",
+        "options": [      
+          {
+            "nextQuestion": ""
+          }
+        ]
+    }
+]

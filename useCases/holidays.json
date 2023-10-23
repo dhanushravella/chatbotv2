@@ -1,0 +1,103 @@
+[
+    {
+        "objectId": "0",
+        "text": "Here is a list of Past Official Company Holidays",
+        "type": "TextDialog",
+        "options": [      
+          {
+            "nextQuestion": "1"
+          }
+        ]
+    },
+    {
+        "objectId": "1",
+        "type": "CallApi",
+        "api_name": "holidays",
+        "module": "HOLIDAY",
+        "url_endpoint": "sapi/EventMaster/upcomingPastHoliday_New_v2?",
+        "method": "GET",
+        "body": {
+          "comp_code": "${comp_code}",
+          "emp_code": "${EMP_code}",
+          "token": "${access_token}"
+        },
+        "queryParameter":"&page=1",
+        "options": [{
+          "answer": "",
+          "nextQuestion": "2"
+        }]
+    },
+    {
+        "objectId": "2",
+        "type": "IfElseDialog",
+        "condition": "${submit.result == 'true'}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "3"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "6"
+          }
+        ]
+    },
+    {
+      "objectId": "3",
+      "type": "textListDialog",
+      "title":"",
+      "data":"${submit.pastholiday}",
+      "validKeys":["holiday_name","holiday_date"],
+      "labelNames":["Name","Date"],
+      "CardDesign":{
+        "$data":"${$root.pastholiday}",
+        "title": "",
+        "subTitle": "Name : ${holiday_name} \n\n Date : ${holiday_date}",
+        "imageUrl":[]
+      },
+      "options": [      
+        {
+          "nextQuestion": "4"
+        }
+      ]
+    },
+    {
+      "objectId": "4",
+      "text": "Here is a list of UpComing Official Company Holidays",
+      "type": "TextDialog",
+      "options": [      
+        {
+          "nextQuestion": "5"
+        }
+      ]
+  },
+    {
+      "objectId": "5",
+      "type": "textListDialog",
+      "title":"",
+      "data":"${submit.upcomingholiday}",
+      "validKeys":["holiday_name","holiday_date"],
+      "labelNames":["Name","Date"],
+      "CardDesign":{
+        "$data":"${$root.upcomingholiday}",
+        "title": "",
+        "subTitle": "Name : ${holiday_name} \n\n Date : ${holiday_date}",
+        "imageUrl":[]
+      },
+      "options": [      
+        {
+          "nextQuestion": ""
+        }
+      ]
+    },
+    {
+        "objectId": "6",
+        "text": "${submit.error}",
+        "type": "TextDialog",
+        "options": [
+          {
+            "nextQuestion": ""
+          }
+        ]
+      }
+]

@@ -1,0 +1,107 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        
+        {
+            "type": "TextBlock",
+            "text": "${utcNow('MMMM')}'s Calendar ",
+            "wrap": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Sun",
+                            "wrap": true,
+                            "id":"Sunday"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Mon",
+                            "wrap": true,
+                            "id":"Monday"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Tue",
+                            "wrap": true,
+                            "id":"Tuesday"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Wed",
+                            "wrap": true,
+                            "id":"Wednesday"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Thu",
+                            "wrap": true,
+                            "id":"Thursday"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Fri",
+                            "wrap": true,
+                            "id":"Friday"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Sat",
+                            "wrap": true,
+                            "id":"Saturday"
+                        }
+                    ]
+                }
+            ]
+        },
+        "${$root}",
+        {
+            "type": "Image",
+            "url": "https://bot.honohr.com/pulsebot/profile/static/img/calendar_symbols.png"
+        }
+        
+    ]
+}

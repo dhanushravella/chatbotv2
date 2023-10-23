@@ -1,0 +1,44 @@
+[
+    {
+        "id": "0",
+        "objectId": "0",
+        "text": "Here is your Profile",
+        "type": "TextDialog",
+        "options": [
+            {
+                "nextQuestion":"1"
+            }
+        ]
+    },
+    {
+        "id": "1",
+        "objectId": "1",
+        "type": "CallApi",
+        "api_name": "myProfile",
+        "module":"EMPLOYEE",
+        "url_endpoint":"sapi/EmpInformation/showEmpPersonalInformation_v2?",
+        "method":"GET",
+        "body":{
+            "comp_code":"${comp_code}",
+            "emp_code":"${EMP_code}",
+            "token":"${access_token}"
+        },
+        "options": [
+            {
+                "nextQuestion":"2"
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "objectId": "2",
+        "type": "AdaptiveCard",
+        "cardName":"myProfile",
+        "options": [
+            {
+                "nextQuestion":""
+            }
+        ]
+    }
+    
+]

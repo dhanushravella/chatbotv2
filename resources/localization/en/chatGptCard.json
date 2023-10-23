@@ -1,0 +1,36 @@
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Ask your Query!",
+            "wrap": true,
+            "style": "heading"
+        },
+        {
+            "type": "Input.Text",
+            "placeholder": "Give your question here....",
+            "id": "userQues",
+            "isMultiline": true
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "title": "Submit",
+                    "data": {
+                        "type":"chatgpt"
+                        }
+                },
+                {
+                    "type": "Action.Submit",
+                    "title": "Cancel"
+                }
+            ],
+            "horizontalAlignment": "Center"
+        }
+    ]
+}

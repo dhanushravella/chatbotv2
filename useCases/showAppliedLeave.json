@@ -1,0 +1,94 @@
+[
+    {
+        "objectId": "1",
+        "question": "Please choose request status.",
+        "retryPrompt": "Please choose a valid input",
+        "type": "choiceDialog",
+        "data": [{"value":"Pending For Approval","key":"1"},{"value":"Approved","key":"2"},{"value":"Rejected","key":"3"},{"value":"Cancelled","key":"4"}],
+        "Style":"Carousel",
+        "options": [
+          {
+            "answer": "${value}",
+            "nextQuestion": "2"
+          }
+        ],
+        "card":[{
+          "Title":"${key}",
+          "Subtitle":""
+        }],
+        "property": "leaveStatus"
+    },
+    {
+        "objectId": "2",
+        "type": "CallApi",
+        "api_name": "show applied leave",
+        "module": "LEAVE",
+        "url_endpoint": "sapi/LeaveMaster/getLeaveTransactionsNew_v2?",
+        "method": "GET",
+        "body": {
+          "comp_code": "${comp_code}",
+          "emp_code": "${EMP_code}",
+          "token": "${access_token}"
+        },
+        "queryParameter":"&request_type=request&request_value=${leaveStatus.Validation.key}&page=1",
+        "options": [{
+          "answer": "",
+          "nextQuestion": "3"
+        }]
+    },
+    {
+        "objectId": "3",
+        "type": "IfElseDialog",
+        "condition": "${submit.result == 'true'}",
+        "options": [
+          {
+            "answer": true,
+            "nextQuestion": "4"
+          },
+          {
+            "answer": false,
+            "nextQuestion": "6"
+          }
+        ]
+    },
+    {
+        "objectId": "4",
+        "text": "Below are the ${leaveStatus.Validation.value} Leave Resquest(s)",
+        "type": "TextDialog",
+        "options": [      
+          {
+            "nextQuestion": "5"
+          }
+        ]
+    },
+    {
+        "objectId": "5",
+        "type": "textListDialog",
+        "title":"",
+        "data":"${submit.leave_transactions}",
+        "validKeys":["Leave_type","From_date","To_date","Applied_Date_Time","Reason","previous_acceptances[0]['StatusText']","previous_acceptances[1]['StatusText']"],
+        "labelNames":["Leave Type","From Date","To Date","AppliedOn","Reason","L1 Status","L2 Status"],
+        "CardDesign":{
+          "$data":"${$root.leave_transactions}",
+          "title": "${Leave_type}",
+          "subTitle": "${if(equals(From_date, To_date), From_date, concat(From_date,' - ',To_date))} \n\n AppliedOn : ${Applied_Date_Time} \n\n Reason : ${Reason} \n\n L1 Status : ${previous_acceptances[0]['StatusText']} \n\n L2 Status : ${previous_acceptances[1]['StatusText']}",
+          "text":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "imageUrl":[]
+        },
+        "options": [      
+          {
+            "nextQuestion": ""
+          }
+        ]
+    },
+    {
+        "objectId": "6",
+        "text": "${submit.error}",
+        "type": "TextDialog",
+        "options": [
+          {
+            "nextQuestion": ""
+          }
+        ]
+      }
+]
