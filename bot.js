@@ -115,16 +115,19 @@ class MainBot extends ActivityHandler {
                         };
                     } else {
                         // if context activity channel is teams then get the user details from the teams
-                        const member = await TeamsInfo.getMember(context, context.activity.from.id);
-                        const userEmail = member.email;
+                        // Get the details from TeamInfo only once and store it in the state if the user info is not found or if the user info is not present in the state
+                        if (this.userState.user === undefined || this.userState.user === null) {
+                            const member = await TeamsInfo.getMember(context, context.activity.from.id);
+                            const userEmail = member.email;
 
-                        AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);
+                            AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);
 
-                        console.log('*** AuthenticationDetails ******', AuthenticationDetails);
+                            console.log('*** AuthenticationDetails ******', AuthenticationDetails);
+                        }
                     }
                 } catch (error) {
                     // console.log("++++ Error +++",error);
-                    // console.log(error.code);
+                    console.log(error.code);
                     AuthenticationDetails = {
                         senderData: {
                             info: {
@@ -268,7 +271,14 @@ class MainBot extends ActivityHandler {
                     await dc.context.sendActivity(exitText);
                     await dc.context.sendActivity(anyText);
                     return await dc.cancelAllDialogs();
-                } else if (dc.stack.length !== 0) {
+                }
+                // Write an else if condition to check if typed message is SIGNOFF then cancel all the dialogs and send a reply to the user
+                else if (userIntent === 'signoff') {
+                    await dc.context.sendActivity('You have been signed off successfully. Type a message to login again');
+                    delete this.userState.user;
+                    return await dc.cancelAllDialogs();
+                }
+                else if (dc.stack.length !== 0) {
                     // Check the current active dialog type
                     console.log('dc.activeDialog is active');
 
