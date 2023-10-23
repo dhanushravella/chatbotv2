@@ -110,19 +110,19 @@ class MainBot extends ActivityHandler {
                         // if context activity channel is teams then get the user details from the teams
                         // Get the details from TeamInfo only once and store it in the state if the user info is not found or if the user info is not present in the state
                         console.log('User State', this.userState.user);
-                        if (this.userState.user === undefined || this.userState.user === null) {
-                            try {
-                                const member = await TeamsInfo.getMember(context, context.activity.from.id);
-                                const userEmail = member.email;
+                        // if (this.userState.user === undefined || this.userState.user === null) {
+                        try {
+                            const member = await TeamsInfo.getMember(context, context.activity.from.id);
+                            const userEmail = member.email;
 
-                                AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);
-                            } catch (error) {
-                                console.log('++++ Error +++', error);
-                            }
-                            console.log('*** AuthenticationDetails ******', AuthenticationDetails);
-
-                            this.userState.user = AuthenticationDetails;
+                            AuthenticationDetails = await userAuthentication.getTeamsAuth(userEmail);
+                        } catch (error) {
+                            console.log('++++ Error +++', error);
                         }
+                        console.log('*** AuthenticationDetails ******', AuthenticationDetails);
+
+                        this.userState.user = AuthenticationDetails;
+                        // }
                     } else {
                         // Write a code to ask user to enter email address and the bot should send OTP to the user email address and authenticate the user
                         // If the user is authenticated then store the user details in the state'
@@ -154,6 +154,7 @@ class MainBot extends ActivityHandler {
                 console.log('User Text--->', userInputText);
                 var cardReturnValue = context.activity.value;
                 console.log('card value--->', cardReturnValue);
+                this.userState.user = AuthenticationDetails;
 
                 // Creating table in azure
                 // Create an instance of the Azure Table Service

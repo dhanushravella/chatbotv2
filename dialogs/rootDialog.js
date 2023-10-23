@@ -11,7 +11,7 @@ const { Dialog, DialogSet, DialogTurnStatus, DialogContext, ComponentDialog } = 
 const { DialogFactory } = require('./dialogFactory');
 class RootDialog extends ComponentDialog {
     constructor(dialogId, accessor) {
-        console.log('in root dialog');
+        // console.log('in root dialog');
         super(dialogId);
         // this._services = services;
         // this._services = null;
